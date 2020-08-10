@@ -101,5 +101,6 @@ x, y, v = main([p_sun, p_earth, p_jupiter, p_halley], .1, 95)
 plot([0],[0], label="Sun", marker=:star, markersize=20)
 plot!(x[2:4:end], y[2:4:end], label="Jupiter", lw=2)
 plot!(x[3:4:end], y[3:4:end], label="Earth")
+savefig("Orbit.pdf")
 #plot!(x[4:3:end], y[4:3:end], label="Halley") ???
 

@@ -104,4 +104,3 @@ plot!(x[2:4:end], y[2:4:end], label="Earth", lw=2, linestyle=:dashdot)
 plot!(x[3:4:end], y[3:4:end], label="Jupiter", lw=2, linestyle=:dash)
 plot!(x[4:4:end], y[4:4:end], label="Halley", lw=2, linestyle=:dashdot)
 savefig("Orbit.pdf")
-

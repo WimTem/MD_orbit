@@ -97,6 +97,7 @@ p_earth = Particle(3e-6, [0, 1], [-1, 0], [0,0], [0,0])
 p_jupiter = Particle(9.55e-4, [0,5.36], [-0.425, 0], [0,0], [0,0])
 p_halley = Particle(1e-14, [34.75, 0], [0,0.0296], [0,0], [0,0])
 
+##True param: dt = 15e-4, t_end = 468.5
 x, y, v = main([p_sun, p_earth, p_jupiter, p_halley], .1, 95)
 plot([0],[0], label="Sun", marker=:star, markersize=20)
 plot!(x[2:4:end], y[2:4:end], label="Jupiter", lw=2)

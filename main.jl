@@ -95,13 +95,13 @@ end
 p_sun = Particle(1, [0,0], [0,0], [0,0], [0,0])
 p_earth = Particle(3e-6, [0, 1], [-1, 0], [0,0], [0,0])
 p_jupiter = Particle(9.55e-4, [0,5.36], [-0.425, 0], [0,0], [0,0])
-p_halley = Particle(1e-14, [34.75, 0], [0,0.0296], [0,0], [0,0])
+p_halley = Particle(1e-4, [34.75, 0], [0,0.0296], [0,0], [0,0])
 
 ##True param: dt = 15e-4, t_end = 468.5
-x, y, v = main([p_sun, p_earth, p_jupiter, p_halley], .1, 95)
-plot(x[1:4:end], y[1:4:end], label="Sun")
+x, y, v = main([p_sun, p_earth, p_jupiter, p_halley], .1, 468.5)
+plot(x[1:4:end], y[1:4:end], label="Sun", xlims=(-10,40), ylims=(-10, 10))
 plot!(x[2:4:end], y[2:4:end], label="Earth", lw=2, linestyle=:dashdot)
 plot!(x[3:4:end], y[3:4:end], label="Jupiter", lw=2, linestyle=:dash)
+plot!(x[4:4:end], y[4:4:end], label="Halley", lw=2, linestyle=:dashdot)
 savefig("Orbit.pdf")
-#plot!(x[4:3:end], y[4:3:end], label="Halley") ???
 

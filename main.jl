@@ -11,21 +11,23 @@ end
 
 
 
-function timeIntegration_basis(t::Real, dt::Real, t_end::Real, p, N::Int64)
-    result_x = []
-    result_y = []
-    result_v = []
+function timeIntegration_basis(t::Real, dt::Real, t_end::Real, p, N::Int64, n::Int64)
+    result_x = zeros(N,n)
+    result_y = zeros(N,n)
+    result_v = zeros(N,n)
     compF_basis(p, N)
+    j = 1
     while (t < t_end)
         t += dt
         compX_basis(p, N, dt)
         compF_basis(p, N)
         compV_basis(p, N, dt)
-        compoutStatistic_basis(p, N, t)
+#       compoutStatistic_basis(p, N, t)
         for i = 1:N
-            result_x = push!(result_x, p[i].x[1])
-            result_y = push!(result_y, p[i].x[2])
+            result_x[i,j] = p[i].x[1]
+            result_y[i,j] = p[i].x[2]
         end
+        j += 1
     end
     return result_x, result_y, result_v
 end
@@ -86,8 +88,10 @@ function force(p1, p2)
 end
 
 function main(particles, dt, t_end)
+    n = Int(t_end/dt)
     N = length(particles)
-    timeIntegration_basis(0, dt, t_end, particles, N)
+    result_x, result_y = timeIntegration_basis(0, dt, t_end, particles, N, n)
+    return result_x, result_y
 end
 
 #mass, x0, v0, F
@@ -97,9 +101,16 @@ p_jupiter = Particle(9.55e-4, [0,5.36], [-0.425, 0], [0,0], [0,0])
 p_halley = Particle(1e-4, [34.75, 0], [0,0.0296], [0,0], [0,0])
 
 ##True param: dt = 15e-4, t_end = 468.5
-x, y, v = main([p_sun, p_earth, p_jupiter, p_halley], .1, 468.5)
-plot(x[1:4:end], y[1:4:end], label="Sun", xlims=(-10,40), ylims=(-10, 10))
-plot!(x[2:4:end], y[2:4:end], label="Earth", lw=2, linestyle=:dashdot)
-plot!(x[3:4:end], y[3:4:end], label="Jupiter", lw=2, linestyle=:dash)
-plot!(x[4:4:end], y[4:4:end], label="Halley", lw=2, linestyle=:dashdot)
+x, y = main([p_sun, p_earth, p_jupiter, p_halley], .1, 468)
+plot(x[1,:], y[1,:], label="Sun", xlims=(-10,40), ylims=(-10, 10))
+plot!(x[2,:], y[2,:], label="Earth", lw=2, linestyle=:dashdot)
+plot!(x[3,:], y[3,:], label="Jupiter", lw=2, linestyle=:dash)
+plot!(x[4,:], y[4,:], label="Halley Comet", lw=2, linestyle=:dashdot)
 savefig("Orbit.pdf")
+
+p1 = plot(x[1,:], y[1,:], label="Sun", linestyle=:dot)
+p2 = plot(x[2,:], y[2,:], label="Earth", linestyle=:dot)
+p3 = plot(x[3,:], y[3,:], label="Jupiter", linestyle=:dot)
+p4 = plot(x[4,:], y[4,:], label="Halley Comet", linestyle=:dot)
+plot(p1, p2, p3, p4, layout=(2,2))
+savefig("Orbit_separate.pdf")

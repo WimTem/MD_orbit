@@ -82,7 +82,6 @@ function force(p1, p2)
     r_vector = p2.x - p1.x
     rmag = norm(p1.x - p2.x)
     f = ((p1.m*p2.m)/rmag^3)*r_vector
-    print(f)
     p1.F = p1.F + f
 end
 

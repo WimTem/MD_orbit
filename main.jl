@@ -9,14 +9,10 @@ mutable struct Particle
     Particle(m, x, v, F, F_old) = new(m, x, v, F, F_old)
 end
 
-
-
 function timeIntegration_basis(t::Real, dt::Real, t_end::Real, p, N::Int64, n::Int64)
     result_x = zeros(N,n)
     result_y = zeros(N,n)
-    result_v = zeros(N,n)
     compF_basis(p, N)
-    j = 1
     while (t < t_end)
         t += dt
         compX_basis(p, N, dt)
@@ -27,7 +23,6 @@ function timeIntegration_basis(t::Real, dt::Real, t_end::Real, p, N::Int64, n::I
             result_x[i,j] = p[i].x[1]
             result_y[i,j] = p[i].x[2]
         end
-        j += 1
     end
     return result_x, result_y, result_v
 end
